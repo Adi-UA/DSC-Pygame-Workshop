@@ -37,15 +37,6 @@ PLAYER_SHIP_IMG = image_reader(resource_path, "player_ship.png")
 
 ########################################################################################################################
 
-# STEP 5
-
-# Music: www.bensound.com" or "Royalty Free Music from Bensound
-
-pygame.mixer.music.load(resource_path + "/bensound-summer.ogg")
-pygame.mixer.music.play(-1)
-
-########################################################################################################################
-
 # STEP 2
 
 class EnemyShip:
@@ -184,91 +175,5 @@ class PlayerShip:
         """
 
         return pygame.mask.from_surface(self.img)
-
-########################################################################################################################
-
-# STEP 4
-
-def draw(window, enemy_ships, player_ship):
-    """
-    Draws all the objects onto the screen at every frame
-
-    Args:
-        window : The root Pygame window
-        enemy_ships (list): The list of EnemyShip objects
-        player_ship (PlayerShip): The PlayerShip object
-    """
-
-    window.fill((18, 9, 10))
-
-    for enemy_ship in enemy_ships:
-        enemy_ship.draw(window)
-
-    player_ship.draw(window)
-
-    pygame.display.update()
-
-
-def main():
-
-    isRunning = True
-
-    player_ship = PlayerShip(WIN_WIDTH // 2, WIN_HEIGHT - 70)
-    enemy_ships = [EnemyShip(WIN_WIDTH//2, 12)]
-
-    while isRunning:
-        game_clock.tick(60)
-
-        # Check for quit condition
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                isRunning = False
-                pygame.quit()
-                exit(0)
-
-        # Read and use input
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_LEFT]:
-            player_ship.move("L")
-        elif keys[pygame.K_RIGHT]:
-            player_ship.move("R")
-        else:
-            player_ship.move("N")
-
-        # Check if enemy ship hit the player
-        # Enemy Ships that hit the player should move in reverse
-        for enemy_ship in enemy_ships:
-            if enemy_ship.collide(player_ship):
-                score += 1
-                enemy_ship.move(reverse=True)
-            else:
-                enemy_ship.move()
-
-        # Quit game if enemy ship reaches bottom
-        # Remove enemy ship fron the scene if it reaches the top
-        enemy_to_remove = list()
-        for enemy_ship in enemy_ships:
-            if enemy_ship.y > WIN_HEIGHT - 50:
-                isRunning = False
-                pygame.quit()
-                exit(0)
-            elif enemy_ship.y < 10:
-                enemy_to_remove.append(enemy_ship)
-
-        for ship in enemy_to_remove:
-            enemy_ships.remove(ship)
-
-        # Add an emey ship when there are none on the screen
-        if len(enemy_ships) < 1:
-            rand_x = random.randrange(10, WIN_WIDTH - 80)
-            y = 12
-            enemy_ships.append(EnemyShip(rand_x,y))
-
-        draw(WINDOW, enemy_ships, player_ship)
-
-
-if __name__ == "__main__":
-    main()
 
 ########################################################################################################################
