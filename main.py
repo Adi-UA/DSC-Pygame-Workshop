@@ -240,7 +240,6 @@ def main():
         # Enemy Ships that hit the player should move in reverse
         for enemy_ship in enemy_ships:
             if enemy_ship.collide(player_ship):
-                score += 1
                 enemy_ship.move(reverse=True)
             else:
                 enemy_ship.move()
