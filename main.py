@@ -37,15 +37,6 @@ PLAYER_SHIP_IMG = image_reader(resource_path, "player_ship.png")
 
 ########################################################################################################################
 
-# STEP 5
-
-# Music: www.bensound.com" or "Royalty Free Music from Bensound
-
-pygame.mixer.music.load(resource_path + "/bensound-summer.ogg")
-pygame.mixer.music.play(-1)
-
-########################################################################################################################
-
 # STEP 2
 
 class EnemyShip:
@@ -240,7 +231,6 @@ def main():
         # Enemy Ships that hit the player should move in reverse
         for enemy_ship in enemy_ships:
             if enemy_ship.collide(player_ship):
-                score += 1
                 enemy_ship.move(reverse=True)
             else:
                 enemy_ship.move()
